@@ -11,8 +11,12 @@ The java code has been tested the most while the c++ has been tested least, if t
 
 The only public methods for the java classes are:
 
+
 BigInteger converter(String)
+
 String reverse(BigInteger)
+
+
 
 Here, "converter" takes a string and outputs the corresponding BigInteger and "reverse" does the opposite.
 
