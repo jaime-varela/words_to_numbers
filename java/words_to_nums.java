@@ -118,6 +118,10 @@ public class words_to_nums {
         }
 
         int s = find_first_big(values);
+        if(s == values.length - 1){
+            return conv_small_text(Arrays.copyOfRange(values, 0, s)).
+                multiply(number_units.get(values[s]));
+        }
 
         String arrayl[] = Arrays.copyOfRange(values, 0, s);
         String arrayr[] = Arrays.copyOfRange(values, s + 1, values.length);
