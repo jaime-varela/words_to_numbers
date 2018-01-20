@@ -192,7 +192,7 @@ public class words_to_nums_fr{
             return ( (number_units.get(value[0]).multiply(number_units.get(value[1]) ))).add(number_units.get(value[2]));
         else{
             System.out.println("improper number starting at "+value[0]+
-			       " ending at "+value[value.length-1])
+			       " ending at "+value[value.length-1]);
             return BigInteger.ZERO;
         }
     }
