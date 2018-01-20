@@ -7,7 +7,7 @@ vice versa.  Some of the code here is used in the application "Words to Numbers"
 https://play.google.com/store/apps/details?id=com.dahak.wordstonumbers
 
 
-The java code has been tested the most while the c++ has been tested least, if there are bugs please let me know.
+The java code has been tested the most while the c++ has been tested least, if there are bugs please let me know.  Both code sets are not optimized yet.
 
 The only public methods for the java classes are:
 
