@@ -42,7 +42,7 @@ public:
 
   //wrapper for recursive function
   //returns zero if there is a mispelling
-  bigint converter(std::string value) {
+  bigint converter(const std::string & value) {
     //string parsing
     std::string valuetosplit = ReplaceAll(value,"-", " ");
     std::transform(valuetosplit.begin(),valuetosplit.end(),valuetosplit.begin(), ::tolower);
@@ -115,7 +115,7 @@ public:
   }
 
   // TODO: to string function may not work
-  std::string reverse(bigint value) {
+  std::string reverse(const bigint & value) {
     std::string numstr = value.tostring();
     int len = numstr.size();
     
@@ -260,7 +260,7 @@ private:
     //converter for numbers between 1 and 999
     //input and string array of length between 1 and 4;
     // TODO: make this recursive and throw exceptions when "hundred" is not in the right place.
-  bigint convert_hundreds(std::vector<std::string> value) {
+  bigint convert_hundreds(std::vector<std::string> & value) {
         if (value.size() == 1)
             return number_units[value[0]];
         else if (value.size() == 2) {
@@ -282,7 +282,7 @@ private:
   std::vector<std::string> nonbiglist;
 
     // finds the first non small unit in string array, returns -1 other
-  int find_first_big(std::vector<std::string> values) {
+  int find_first_big(std::vector<std::string> & values) {
         int counter = -1;
 
         for (int k = 0; k < values.size(); k++) {
@@ -295,7 +295,7 @@ private:
         return counter;
   }
 
-  bigint conv_small_text(std::vector<std::string> values) {
+  bigint conv_small_text(std::vector<std::string> & values) {
     int s = find_first_big(values);
     //std::cout << "here bitch " << s << std::endl;
 
@@ -313,7 +313,7 @@ private:
     }
   }
   
-  bigint conv_num(std::vector<std::string> values) {
+  bigint conv_num(std::vector<std::string> & values) {
     //base cases
     if (values.size() <= 4) {
       return conv_small_text(values);
@@ -326,7 +326,6 @@ private:
       return conv_small_text(arrayl).
 	multiply(number_units[values[s] ]);
     }    
-
 	
     //	std::vector<std::string> arrayl = Arrays.copyOfRange(values, 0, s);
     //std::vector<std::string> arrayr = Arrays.copyOfRange(values, s + 1, values.size());
@@ -366,12 +365,12 @@ private:
 
     }
   
-  
-  std::string addys(std::string result){
+  //unused inneficient function kept for readability
+  std::string addys2(std::string result){
     result = ReplaceAll(result,"hundred ", "hundred and ");
     for(int k = 0; k < numbers.size();k++){
       result = ReplaceAll(result,"and "+numbers[k],numbers[k]);
-    }
+    } // squared loop is inneficient
     
     for(int k = 0; k < numbers.size();k++){
       std::string from = " "+numbers[k];
@@ -386,4 +385,32 @@ private:
     
   }
 
+  std::string addys(std::string result){
+    result = ReplaceAll(result,"hundred ", "hundred and ");
+    std::vector<std::string> splitvals = SPLIT(result," ");
+
+    for(int k = 0; k < splitvals.size() - 1; k++){
+      if(splitvals[k] == "and" &&
+	 (std::find(numbers.begin(),numbers.end(), splitvals[k+1]) != numbers.end() ))
+	splitvals[k] = "";      
+    }    
+    for(int k = 0; k < splitvals.size() - 1; k++){
+      if((std::find(numbers.begin(),numbers.end(), splitvals[k]) != numbers.end() ))
+	splitvals[k] += ",";      
+    }
+
+    result = JOINSTR(splitvals," ");
+    return result;
+  }
+
+  std::string JOINSTR(const std::vector<std::string> & vec, std::string delim){
+    std::string res = "";
+    for(int k = 0; k < vec.size();++k){
+      res += vec[k];
+      if(k != vec.size()-1)
+	res += delim;
+    }
+    return res;
+  }
+  
 };
