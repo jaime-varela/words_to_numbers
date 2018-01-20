@@ -118,10 +118,10 @@ public class words_to_nums {
         }
 
         int s = find_first_big(values);
-        if(s == values.length - 1){
-            return conv_small_text(Arrays.copyOfRange(values, 0, s)).
-                multiply(number_units.get(values[s]));
-        }
+	if(s == values.length - 1){
+	    return conv_small_text(Arrays.copyOfRange(values, 0, s)).
+		multiply(number_units.get(values[s]));
+	}	    
 
         String arrayl[] = Arrays.copyOfRange(values, 0, s);
         String arrayr[] = Arrays.copyOfRange(values, s + 1, values.length);
@@ -262,7 +262,8 @@ public class words_to_nums {
         return result;
     }
 
-    private String addys(String result){
+    //inneficient function kept for readability
+    private String addys2(String result){
         result = result.replace("hundred ", "hundred and ");
         for(int k = 0; k < numbers.length;k++){
             result = result.replace("and "+numbers[k],numbers[k]);
@@ -278,4 +279,20 @@ public class words_to_nums {
 
     }
 
+    String addys(String result){
+	result = result.replace("hundred ", "hundred and ");
+	String splitvals[] = result.split(" ");
+	
+	for(int k = 0; k < splitvals.length - 1; k++){
+	    if(splitvals[k].equals("and") &&
+	       Arrays.asList(numbers).contains(splitvals[k+1]))
+		splitvals[k] = "";
+	}
+	for(int k = 0; k < splitvals.length - 1; k++){
+	    if(Arrays.asList(numbers).contains(splitvals[k]))
+		splitvals[k] += ",";
+	}	
+	result = String.join(" ",splitvals);
+	return result;
+    }
 }
