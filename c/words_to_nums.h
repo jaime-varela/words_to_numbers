@@ -197,12 +197,12 @@ private:
     auto i = 0;
     auto pos = s.find(delim);
     std::vector<std::string> v;
-    while (pos != string::npos) {
+    while (pos != std::string::npos) {
       v.push_back(s.substr(i, pos-i));
       i = ++pos;
       pos = s.find(delim, pos);
 
-      if (pos == string::npos)
+      if (pos == std::string::npos)
 	v.push_back(s.substr(i, s.length()));
     }
     return v;
@@ -254,7 +254,7 @@ private:
     }
   }
   
-  unordered_map<std::string, bigint> number_units;
+  std::unordered_map<std::string, bigint> number_units;
   
     // THE CONVERTER
     //converter for numbers between 1 and 999
@@ -305,8 +305,8 @@ private:
       
       //std::string arrayl[] = Arrays.copyOfRange(values, 0, s);
       //    std::string arrayr[] = Arrays.copyOfRange(values, s + 1, values.size());
-      std::vector<string> arrayl(values.begin(),values.begin()+s);
-      std::vector<string> arrayr(values.begin()+s+1, values.end());
+      std::vector<std::string> arrayl(values.begin(),values.begin()+s);
+      std::vector<std::string> arrayr(values.begin()+s+1, values.end());
       bigint result = number_units[values[s] ].multiply(convert_hundreds(arrayl));
       result = (s < values.size() - 1) ? result.add(conv_small_text(arrayr)) : result.add(ZERO);
       return result;
@@ -318,13 +318,20 @@ private:
     if (values.size() <= 4) {
       return conv_small_text(values);
     }
+
     
-        int s = find_first_big(values);
+    int s = find_first_big(values);
+    if(s == values.size() - 1){
+      std::vector<std::string> arrayl(values.begin(),values.begin() + s);
+      return conv_small_text(arrayl).
+	multiply(number_units[values[s] ]);
+    }    
+
 	
-	//	std::vector<std::string> arrayl = Arrays.copyOfRange(values, 0, s);
-	//std::vector<std::string> arrayr = Arrays.copyOfRange(values, s + 1, values.size());
-	std::vector<std::string> arrayl(values.begin(),values.begin() + s);
-	std::vector<std::string> arrayr(values.begin()+s+1,values.end());
+    //	std::vector<std::string> arrayl = Arrays.copyOfRange(values, 0, s);
+    //std::vector<std::string> arrayr = Arrays.copyOfRange(values, s + 1, values.size());
+    std::vector<std::string> arrayl(values.begin(),values.begin() + s);
+    std::vector<std::string> arrayr(values.begin()+s+1,values.end());
 	
         return (number_units[values[s] ].multiply(convert_hundreds(arrayl))).add(conv_num(arrayr));
     }
